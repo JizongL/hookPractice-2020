@@ -5,41 +5,37 @@ import axios from 'axios'
 
 function App() {
   let initialCount = 0;
-  let initialID = 0;
+  let initialID = '';
   let initialData = {};
   const [count, setCount] = useState(initialCount);
   const [data, setData] = useState(initialData)
   const [ID, setID] = useState(initialID);
 
 
-  const getData = async ()=>{
-    let res;
-    
-    try {
-      res = await axios.get(
-        'https://5e08d2b9434a370014168d82.mockapi.io/test/',
-        {
-        params:{
-          ID:ID
-        }
-      })
-      res = await res.json();
-      console.log(res,'await')
-
-    }catch(e){
-      console.log(e)
-    }
-}
+  
   
 
   useEffect(()=>{
+    const getData = async (ID)=>{
+      let res;
+      
+      try {
+        res = await axios.get(
+          `https://5e08d2b9434a370014168d82.mockapi.io/test/${ID}`,       
+        )
+        
+        console.log(res,'await')
+        setData(res);
+      }catch(e){
+        console.log(e)
+      }
+  }
+    getData(ID);
     
-    setData(getData(ID));
-    console.log(data,'after set data')
     
     
-  },[data])
-
+  },[ID])
+  console.log(data,'after set data')
   const handleInput = (e)=>{
     console.log(Number(e.target.value));
     setCount(Number(e.target.value));
